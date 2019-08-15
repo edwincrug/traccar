@@ -13,6 +13,7 @@
     <entry key='web.enable'>true</entry>
     <entry key='web.port'>8082</entry>
     <entry key='web.path'>./web</entry>
+    <entry key='web.origin'>*</entry>
     <entry key='web.cacheControl'>max-age=3600,public</entry>
 
     <entry key='geocoder.enable'>false</entry>
@@ -33,7 +34,25 @@
 
     <entry key='media.path'>./media</entry>
 
-    <entry key='notificator.types'>web,mail</entry>
+    <entry key='notificator.types'>web,mail,sms</entry>
+
+    <entry key='sms.enable'>true</entry>
+    <entry key='sms.smpp.enable'>true</entry>
+    <entry key='sms.smpp.host'>smsglobal.com</entry>
+    <entry key='sms.smpp.port'>1775</entry>
+    <entry key='sms.smpp.username'>6o84a6aq</entry>
+    <entry key='sms.smpp.password'>z5ZtddAs</entry>
+    <entry key='sms.smpp.notificationsCharset'>GSM</entry>
+    <entry key='sms.smpp.notificationsDataCoding'>0</entry>
+    <entry key='sms.smpp.sourceAddress'>+5215510534400</entry>
+
+    <entry key='mail.smtp.host'>smtp.gmail.com</entry>
+    <entry key='mail.smtp.port'>465</entry>
+    <entry key='mail.smtp.ssl.enable'>true</entry>
+    <entry key='mail.smtp.from'>edwincrug@gmail.com</entry>
+    <entry key='mail.smtp.auth'>true</entry>
+    <entry key='mail.smtp.username'>edwincrug@gmail.com</entry>
+    <entry key='mail.smtp.password'>zenttre.mx</entry>
 
     <entry key='server.statistics'>https://www.traccar.org/analytics/</entry>
 
