@@ -37,6 +37,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TimeZone;
@@ -373,6 +374,16 @@ public class Gl200TextProtocolDecoder extends BaseProtocolDecoder {
             .text(",")
             .number("(xxxx)")                    // count number
             .text("$").optional()
+            .compile();
+
+    private static  final Pattern PATTERN_DAT = new PatternBuilder()
+            .text("+RESP:GTDAT")
+            .number("(?:[0-9A-Z]{2}xxxx)?,").optional() // protocol version
+            .number("(d{15}|x{14}),")            // imei
+            .expression("[^,]*,")                // device name
+            .number("[012],")                    // type
+            .any()                               // reserved
+            .any()                               // reserved
             .compile();
 
     private Object decodeAck(Channel channel, SocketAddress remoteAddress, String sentence, String type) {
@@ -1064,6 +1075,20 @@ public class Gl200TextProtocolDecoder extends BaseProtocolDecoder {
         return position;
     }
 
+    private Object decodeDat(Channel channel, SocketAddress remoteAddress, String sentence)
+    {
+        Parser parser = new Parser(PATTERN_DAT, sentence);
+        Position position = initPosition(parser, channel, remoteAddress);
+
+        position.set(Position.KEY_IGNITION, true);
+        position.set(Position.KEY_HOURS, 1);
+        position.setTime(new Date());
+
+
+        return position;
+
+    }
+
     private Object decodeOther(Channel channel, SocketAddress remoteAddress, String sentence, String type) {
         Parser parser = new Parser(PATTERN, sentence);
         Position position = initPosition(parser, channel, remoteAddress);
@@ -1255,6 +1280,9 @@ public class Gl200TextProtocolDecoder extends BaseProtocolDecoder {
                 case "PNA":
                 case "PFA":
                     result = decodePna(channel, remoteAddress, sentence);
+                    break;
+                case "DAT":
+                    result = decodeDat(channel, remoteAddress,sentence);
                     break;
                 default:
                     result = decodeOther(channel, remoteAddress, sentence, type);
