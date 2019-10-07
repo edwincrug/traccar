@@ -60,10 +60,10 @@
     <entry key='mail.smtp.host'>smtp.gmail.com</entry>
     <entry key='mail.smtp.port'>465</entry>
     <entry key='mail.smtp.ssl.enable'>true</entry>
-    <entry key='mail.smtp.from'>edwincrug@gmail.com</entry>
+    <entry key='mail.smtp.from'>sisgpoa@gmail.com</entry>
     <entry key='mail.smtp.auth'>true</entry>
-    <entry key='mail.smtp.username'>edwincrug@gmail.com</entry>
-    <entry key='mail.smtp.password'>zenttre.mx</entry>
+    <entry key='mail.smtp.username'>sisgpoa@gmail.com</entry>
+    <entry key='mail.smtp.password'>Gp04ndr4d3</entry>
 
     <entry key='server.statistics'>https://www.traccar.org/analytics/</entry>
 
