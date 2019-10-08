@@ -89,10 +89,8 @@
         BEGIN
             IF EXISTS( SELECT 1 from parseJSON(:attributes) WHERE Name = 'motion' and StringValue = '1')
             BEGIN
-                DECLARE @biometricuserid AS INT
-                SELECT @biometricuserid = StringValue from parseJSON(:attributes)  WHERE Name = 'vin'
                 INSERT INTO sessions (deviceId ,biometricuserid ,servertime)
-                VALUES (:deviceId , @biometricuserid , :now)
+                SELECT :deviceId, StringValue, :now FROM parseJSON(:attributes)  WHERE Name = 'vin'
             END
         END
     </entry>
