@@ -19,12 +19,12 @@
     <entry key ='geocoder.enable'>true</entry>
     <entry key ='geocoder.type'>google</entry>
     <entry key ='geocoder.url'>https://maps.googleapis.com/maps/api/geocode/</entry>
-    <entry key ='geocoder.key'>AIzaSyDEWOQlZj6OeUR8Go7mACY-KCp_Ao0HBc8</entry>
+    <entry key ='geocoder.key'>AIzaSyBB1Thl2Nl76NTq80cQAhhH1hB70JyI-9c</entry>
 
     <entry key='logger.console'>true</entry>
 
     <entry key='database.driver'>com.microsoft.sqlserver.jdbc.SQLServerDriver</entry>
-    <entry key='database.url'>jdbc:sqlserver://189.204.141.199;user=sa;password=S0p0rt3;databaseName=Trackerv2;</entry>
+    <entry key='database.url'>jdbc:sqlserver://localhost;user=sa;password=S0p0rt3;databaseName=Tracker;</entry>
     <entry key='database.user'>sa</entry>
     <entry key='database.password'>S0p0rt3</entry>
 
@@ -60,7 +60,7 @@
     <entry key='mail.smtp.host'>smtp.gmail.com</entry>
     <entry key='mail.smtp.port'>465</entry>
     <entry key='mail.smtp.ssl.enable'>true</entry>
-    <entry key='mail.smtp.from'>edwincrug@gmail.com</entry>
+    <entry key='mail.smtp.from'>sisgpoa@gmail.com</entry>
     <entry key='mail.smtp.auth'>true</entry>
     <entry key='mail.smtp.username'>sisgpoa@gmail.com</entry>
     <entry key='mail.smtp.password'>Gp04ndr4d3</entry>
