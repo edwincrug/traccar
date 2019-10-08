@@ -24,7 +24,7 @@
     <entry key='logger.console'>true</entry>
 
     <entry key='database.driver'>com.microsoft.sqlserver.jdbc.SQLServerDriver</entry>
-    <entry key='database.url'>jdbc:sqlserver://localhost\SQL2017;user=sa;password=S0p0rt3;databaseName=Tracker;</entry>
+    <entry key='database.url'>jdbc:sqlserver://189.204.141.199;user=sa;password=S0p0rt3;databaseName=Trackerv2;</entry>
     <entry key='database.user'>sa</entry>
     <entry key='database.password'>S0p0rt3</entry>
 
@@ -62,8 +62,8 @@
     <entry key='mail.smtp.ssl.enable'>true</entry>
     <entry key='mail.smtp.from'>edwincrug@gmail.com</entry>
     <entry key='mail.smtp.auth'>true</entry>
-    <entry key='mail.smtp.username'>edwincrug@gmail.com</entry>
-    <entry key='mail.smtp.password'>zenttre.mx</entry>
+    <entry key='mail.smtp.username'>sisgpoa@gmail.com</entry>
+    <entry key='mail.smtp.password'>Gp04ndr4d3</entry>
 
     <entry key='server.statistics'>https://www.traccar.org/analytics/</entry>
 
@@ -79,6 +79,22 @@
     <entry key='database.loginUser'>
         SELECT * FROM tc_users
         WHERE email = :email OR login = :email
+    </entry>
+
+    <entry key='database.insertPosition'>
+        INSERT INTO positions (deviceId, protocol, serverTime, deviceTime, fixTime, valid, latitude, longitude, altitude, speed, course, address, attributes)
+        VALUES (:deviceId, :protocol, :now, :deviceTime, :fixTime, :valid, :latitude, :longitude, :altitude, :speed, :course, :address, :attributes);
+
+        IF EXISTS(SELECT 1 from parseJSON(:attributes) WHERE Name = 'type' and StringValue = 'DAT')
+        BEGIN
+            IF EXISTS( SELECT 1 from parseJSON(:attributes) WHERE Name = 'motion' and StringValue = '1')
+            BEGIN
+                DECLARE @biometricuserid AS INT
+                SELECT @biometricuserid = StringValue from parseJSON(:attributes)  WHERE Name = 'vin'
+                INSERT INTO sessions (deviceId ,biometricuserid ,servertime)
+                VALUES (:deviceId , @biometricuserid , :now)
+            END
+        END
     </entry>
 
     <entry key='database.selectPositions'>
