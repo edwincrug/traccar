@@ -378,7 +378,8 @@ public class Gl200TextProtocolDecoder extends BaseProtocolDecoder {
             .compile();
 
     private static  final Pattern PATTERN_DAT = new PatternBuilder()
-            .text("+RESP:GTDAT,")
+            .text("+").expression("(?:RESP|BUFF)").text(":")
+            .expression("GT...,")
             .number("(?:[0-9A-Z]{2}xxxx)?,").optional() // protocol version
             .number("(d{15}|x{14}),")            // imei
             .expression("[^,]*,")                // device name
@@ -387,7 +388,7 @@ public class Gl200TextProtocolDecoder extends BaseProtocolDecoder {
             .any()                               // reserved
             .text("FPS,")                        //
             .number("(d{15}|x{14}),")            // imei
-            .number("(d{3}),")            // user ID
+            .number("(d{1,3})?,")                // user ID
             .number("(0|1)")                     // status
             .text("&,")                         // end data
             .any()                              // rest
