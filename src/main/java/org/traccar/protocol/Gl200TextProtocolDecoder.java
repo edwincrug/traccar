@@ -377,22 +377,6 @@ public class Gl200TextProtocolDecoder extends BaseProtocolDecoder {
             .text("$").optional()
             .compile();
 
-    private static  final Pattern PATTERN_DAT = new PatternBuilder()
-            .text("+RESP:GTDAT,")
-            .number("(?:[0-9A-Z]{2}xxxx)?,").optional() // protocol version
-            .number("(d{15}|x{14}),")            // imei
-            .expression("[^,]*,")                // device name
-            .number("[012],")                    // type
-            .any()                               // reserved
-            .any()                               // reserved
-            .text("FPS,")                        //
-            .number("(d{15}|x{14}),")            // imei
-            .number("(d{3}),")            // user ID
-            .number("(0|1)")                     // status
-            .text("&,")                         // end data
-            .any()                              // rest
-            .compile();
-
     private Object decodeAck(Channel channel, SocketAddress remoteAddress, String sentence, String type) {
         Parser parser = new Parser(PATTERN_ACK, sentence);
         if (parser.matches()) {
@@ -1082,34 +1066,6 @@ public class Gl200TextProtocolDecoder extends BaseProtocolDecoder {
         return position;
     }
 
-    private Object decodeDat(Channel channel, SocketAddress remoteAddress, String sentence)
-    {
-        Parser parser = new Parser(PATTERN_DAT, sentence);
-        Position position = initPosition(parser, channel, remoteAddress);
-
-        position.set(Position.KEY_IGNITION, false);
-        position.set(Position.KEY_HOURS, 0);
-
-        String imei="";
-        String id="";
-        String status="";
-
-        imei = parser.next();
-        id = parser.next();
-        status = parser.next();
-
-        position.set(Position.KEY_VIN, id);
-        position.set(Position.KEY_MOTION, status);
-        position.setTime(new Date());
-
-
-
-
-
-        return position;
-
-    }
-
     private Object decodeOther(Channel channel, SocketAddress remoteAddress, String sentence, String type) {
         Parser parser = new Parser(PATTERN, sentence);
         Position position = initPosition(parser, channel, remoteAddress);
@@ -1301,9 +1257,6 @@ public class Gl200TextProtocolDecoder extends BaseProtocolDecoder {
                 case "PNA":
                 case "PFA":
                     result = decodePna(channel, remoteAddress, sentence);
-                    break;
-                case "DAT":
-                    result = decodeDat(channel, remoteAddress,sentence);
                     break;
                 default:
                     result = decodeOther(channel, remoteAddress, sentence, type);

@@ -366,21 +366,6 @@
       <column name="poilayer" type="VARCHAR(512)" />
     </createTable>
 
-      <createTable tableName="tc_sessions">
-          <column name="id" type="INT" autoIncrement="true">
-              <constraints primaryKey="true" />
-          </column>
-          <column name="deviceid" type="INT" defaultValueNumeric="0">
-              <constraints nullable="true" />
-          </column>
-          <column name="biometricuserid" type="INT" defaultValueNumeric="0">
-              <constraints nullable="true" />
-          </column>
-          <column name="servertime" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
-              <constraints nullable="false" />
-          </column>
-      </createTable>
-
     <createTable tableName="tc_statistics">
       <column name="id" type="INT" autoIncrement="true">
         <constraints primaryKey="true" />
