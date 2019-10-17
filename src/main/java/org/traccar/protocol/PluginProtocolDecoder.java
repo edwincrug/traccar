@@ -34,8 +34,8 @@ public class PluginProtocolDecoder extends BaseProtocolDecoder {
     }
 
     private static final Pattern PATTERN = new PatternBuilder()
-            .any()
-            .number("(d+),")                     // device id
+            .expression("[^0-9,]*,?")
+            .number("([^,]+),")                  // device id
             .number("(dddd)(dd)(dd)")            // date (yyyymmdd)
             .number("(dd)(dd)(dd),")             // time (hhmmss)
             .number("(-?d+.d+),")                // longitude
@@ -44,9 +44,16 @@ public class PluginProtocolDecoder extends BaseProtocolDecoder {
             .number("(d+),")                     // course
             .number("(-?d+),")                   // altitude
             .number("(-?d+),")                   // satellites
-            .number("(d+),")                     // event
+            .number("d+,")                       // type
             .number("(d+),")                     // odometer
             .number("(d+),")                     // status
+            .expression("[^,]*,")
+            .expression("[^,]*,")
+            .text("0")
+            .groupBegin()
+            .text(",+,")
+            .number("(d+),")                     // event
+            .groupEnd("?")
             .any()
             .compile();
 
@@ -76,9 +83,9 @@ public class PluginProtocolDecoder extends BaseProtocolDecoder {
         position.setAltitude(parser.nextInt());
 
         position.set(Position.KEY_SATELLITES, parser.nextInt());
-        position.set(Position.KEY_EVENT, parser.nextInt());
         position.set(Position.KEY_ODOMETER, parser.nextInt());
         position.set(Position.KEY_STATUS, parser.nextInt());
+        position.set(Position.KEY_EVENT, parser.nextInt());
 
         return position;
     }

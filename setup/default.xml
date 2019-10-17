@@ -47,15 +47,31 @@
 
     <entry key='notificator.types'>web,mail,sms</entry>
 
-    <entry key='sms.enable'>true</entry>
-    <entry key='sms.smpp.enable'>true</entry>
-    <entry key='sms.smpp.host'>smsglobal.com</entry>
-    <entry key='sms.smpp.port'>1775</entry>
-    <entry key='sms.smpp.username'>6o84a6aq</entry>
-    <entry key='sms.smpp.password'>z5ZtddAs</entry>
-    <entry key='sms.smpp.notificationsCharset'>GSM</entry>
-    <entry key='sms.smpp.notificationsDataCoding'>0</entry>
-    <entry key='sms.smpp.sourceAddress'>+5215510534400</entry>
+    <!--    <entry key='sms.enable'>true</entry>-->
+    <!--    <entry key='sms.smpp.enable'>true</entry>-->
+    <!--    <entry key='sms.smpp.host'>smsglobal.com</entry>-->
+    <!--    <entry key='sms.smpp.port'>1775</entry>-->
+    <!--    <entry key='sms.smpp.username'>6o84a6aq</entry>-->
+    <!--    <entry key='sms.smpp.password'>z5ZtddAs</entry>-->
+    <!--    <entry key='sms.smpp.notificationsCharset'>GSM</entry>-->
+    <!--    <entry key='sms.smpp.notificationsDataCoding'>0</entry>-->
+    <!--    <entry key='sms.smpp.sourceAddress'>+5215510534400</entry>-->
+
+    <entry key='notificator.sms.manager.class'>org.traccar.sms.HttpSmsClient</entry>
+    <entry key='sms.http.url'>https://api.twilio.com/2010-04-01/Accounts/ACde96ec244c9d9c05b648d650035970d9/Messages.json</entry>
+    <entry key='sms.http.user'>ACde96ec244c9d9c05b648d650035970d9</entry>
+    <entry key='sms.http.password'>c07deaedd5331d739067dcbded2a3696</entry>
+    <entry key='sms.http.template'>
+        From=+12056519014&amp;To={phone}&amp;Body={message}
+    </entry>
+
+    <!--    <entry key='mail.smtp.host'>smtp.gmail.com</entry>-->
+    <!--    <entry key='mail.smtp.port'>465</entry>-->
+    <!--    <entry key='mail.smtp.ssl.enable'>true</entry>-->
+    <!--    <entry key='mail.smtp.from'>edwincrug@gmail.com</entry>-->
+    <!--    <entry key='mail.smtp.auth'>true</entry>-->
+    <!--    <entry key='mail.smtp.username'>edwincrug@gmail.com</entry>-->
+    <!--    <entry key='mail.smtp.password'>zenttre.mx</entry>-->
 
     <entry key='mail.smtp.host'>smtp.gmail.com</entry>
     <entry key='mail.smtp.port'>465</entry>
@@ -75,7 +91,7 @@
     <entry key='database.ignoreUnknown'>true</entry>
     <entry key='database.generateQueries'>true</entry>
     <entry key='database.changelog'>./schema/changelog-master.xml</entry>
- 
+
     <entry key='database.loginUser'>
         SELECT * FROM tc_users
         WHERE email = :email OR login = :email
