@@ -30,6 +30,7 @@
 
 
 
+
     <entry key='logger.enable'>true</entry>
     <entry key='logger.level'>info</entry>
     <entry key='logger.file'>./logs/tracker-server.log</entry>

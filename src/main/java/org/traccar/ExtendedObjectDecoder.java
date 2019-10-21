@@ -61,7 +61,10 @@ public abstract class ExtendedObjectDecoder extends ChannelInboundHandlerAdapter
                     }
                 } else {
                     saveOriginal(decodedMessage, originalMessage);
-                    ctx.fireChannelRead(decodedMessage);
+                    Position position = (Position) decodedMessage;
+                    if(!position.getAttributes().isEmpty()){
+                        ctx.fireChannelRead(decodedMessage);
+                    }
                 }
             }
         } finally {
