@@ -171,6 +171,9 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
         return position;
     }
 
+  //region Decodificación de trama modular 11
+    // 20191023
+
     private Position decodeModular(ByteBuf buf, DeviceSession deviceSession) {
 
         Position position = new Position(getProtocolName());
@@ -181,20 +184,22 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
         buf.readUnsignedShortLE(); // reserved
         buf.readUnsignedShortLE(); // reserved
 
-        while (buf.readableBytes() > 3) {
+        while (buf.readableBytes() > 3) { //checksum
 
             int moduleType = buf.readUnsignedByte();
             int endIndex = buf.readUnsignedShortLE() + buf.readerIndex();
 
             switch (moduleType) {
                 case 2:
-                    buf.readUnsignedShortLE(); // operator id
-                    buf.readUnsignedIntLE(); // pl signature
-                    int count = buf.readUnsignedByte();
+                   long operador =  buf.readUnsignedShort(); // operator id
+                   String plsignature =  Long.toHexString(buf.readUnsignedInt()); // pl signature
+                    int count = buf.readUnsignedByte(); // var nums
                     for (int i = 0; i < count; i++) {
-                        int id = buf.readUnsignedShortLE();
-                        buf.readUnsignedByte(); // variable length
-                        position.set(Position.PREFIX_IO + id, buf.readUnsignedIntLE());
+                        String varid = Integer.toHexString(buf.readUnsignedShortLE()); //VAR id
+                        int varlength = buf.readUnsignedByte(); // variable length always 0x04
+                        long payload = buf.readUnsignedIntLE(); // calc value
+
+                        position.set("namevalue", 0 ); //save calc value
                     }
                     break;
                 case 6:
@@ -225,6 +230,8 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
 
         return position;
     }
+
+    //endregion
 
     @Override
     protected Object decode(
