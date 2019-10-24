@@ -24,6 +24,7 @@ import org.traccar.NetworkMessage;
 import org.traccar.Protocol;
 import org.traccar.helper.DateBuilder;
 import org.traccar.helper.UnitsConverter;
+import org.traccar.model.CanVariable;
 import org.traccar.model.Position;
 
 import java.net.SocketAddress;
@@ -173,6 +174,7 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
 
   //region Decodificación de trama modular 11
     // 20191023
+    // 20191024 - MARX case 2 message 11
 
     private Position decodeModular(ByteBuf buf, DeviceSession deviceSession) {
 
@@ -191,15 +193,25 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
 
             switch (moduleType) {
                 case 2:
-                   long operador =  buf.readUnsignedShort(); // operator id
-                   String plsignature =  Long.toHexString(buf.readUnsignedInt()); // pl signature
+                   long operator =  buf.readUnsignedShort(); // operator id
+                   String plSignature =  Long.toHexString(buf.readUnsignedInt()); // pl signature
                     int count = buf.readUnsignedByte(); // var nums
                     for (int i = 0; i < count; i++) {
-                        String varid = Integer.toHexString(buf.readUnsignedShortLE()); //VAR id
-                        int varlength = buf.readUnsignedByte(); // variable length always 0x04
+                        String varId = Integer.toHexString(buf.readUnsignedShortLE()); //VAR id
+                        int varLength = buf.readUnsignedByte(); // variable length always 0x04
                         long payload = buf.readUnsignedIntLE(); // calc value
-
-                        position.set("namevalue", 0 ); //save calc value
+                        CanVariable canVariable = getCanVariable(plSignature,varId);
+                        if(canVariable != null){
+                            try{
+                                long result = canVariable.getFwOffset() + payload * canVariable.getFwMultiplier()/ canVariable.getFwDivider();
+                                position.set(canVariable.getTitle(), result );
+                            }catch(Exception ex) {
+                                position.set("error-" + varId, payload );
+                                String p = ex.getMessage();
+                            }
+                        }else{
+                            position.set("unknown-" + varId, payload );
+                        }
                     }
                     break;
                 case 6:
