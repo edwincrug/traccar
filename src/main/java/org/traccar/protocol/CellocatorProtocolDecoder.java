@@ -24,6 +24,7 @@ import org.traccar.NetworkMessage;
 import org.traccar.Protocol;
 import org.traccar.helper.DateBuilder;
 import org.traccar.helper.UnitsConverter;
+import org.traccar.model.CanVariable;
 import org.traccar.model.Position;
 
 import java.net.SocketAddress;
@@ -171,6 +172,10 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
         return position;
     }
 
+  //region Decodificación de trama modular 11
+    // 20191023
+    // 20191024 - MARX case 2 message 11
+
     private Position decodeModular(ByteBuf buf, DeviceSession deviceSession) {
 
         Position position = new Position(getProtocolName());
@@ -181,20 +186,32 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
         buf.readUnsignedShortLE(); // reserved
         buf.readUnsignedShortLE(); // reserved
 
-        while (buf.readableBytes() > 3) {
+        while (buf.readableBytes() > 3) { //checksum
 
             int moduleType = buf.readUnsignedByte();
             int endIndex = buf.readUnsignedShortLE() + buf.readerIndex();
 
             switch (moduleType) {
                 case 2:
-                    buf.readUnsignedShortLE(); // operator id
-                    buf.readUnsignedIntLE(); // pl signature
-                    int count = buf.readUnsignedByte();
+                   long operator =  buf.readUnsignedShort(); // operator id
+                   String plSignature =  Long.toHexString(buf.readUnsignedInt()); // pl signature
+                    int count = buf.readUnsignedByte(); // var nums
                     for (int i = 0; i < count; i++) {
-                        int id = buf.readUnsignedShortLE();
-                        buf.readUnsignedByte(); // variable length
-                        position.set(Position.PREFIX_IO + id, buf.readUnsignedIntLE());
+                        String varId = Integer.toHexString(buf.readUnsignedShortLE()); //VAR id
+                        int varLength = buf.readUnsignedByte(); // variable length always 0x04
+                        long payload = buf.readUnsignedIntLE(); // calc value
+                        CanVariable canVariable = getCanVariable(plSignature,varId);
+                        if(canVariable != null){
+                            try{
+                                long result = canVariable.getFwOffset() + payload * canVariable.getFwMultiplier()/ canVariable.getFwDivider();
+                                position.set(canVariable.getTitle(), result );
+                            }catch(Exception ex) {
+                                position.set("error-" + varId, payload );
+                                String p = ex.getMessage();
+                            }
+                        }else{
+                            position.set("unknown-" + varId, payload );
+                        }
                     }
                     break;
                 case 6:
@@ -225,6 +242,8 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
 
         return position;
     }
+
+    //endregion
 
     @Override
     protected Object decode(

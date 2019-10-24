@@ -24,7 +24,7 @@
     <entry key='logger.console'>true</entry>
 
     <entry key='database.driver'>com.microsoft.sqlserver.jdbc.SQLServerDriver</entry>
-    <entry key='database.url'>jdbc:sqlserver://localhost;user=sa;password=S0p0rt3;databaseName=Tracker;</entry>
+    <entry key='database.url'>jdbc:sqlserver://189.204.141.199;user=sa;password=S0p0rt3;databaseName=Test2;</entry>
     <entry key='database.user'>sa</entry>
     <entry key='database.password'>S0p0rt3</entry>
 
@@ -96,6 +96,10 @@
     <entry key='database.loginUser'>
         SELECT * FROM tc_users
         WHERE email = :email OR login = :email
+    </entry>
+
+    <entry key='database.selectCanVariables'>
+        SELECT varid, title, fwmultiplier, fwdivider, fwoffset, fwunits, decimalplaces FROM tc_canvariables CV INNER JOIN tc_canconfigurations CC ON CV.canconfigurationid = CC.id WHERE CC.plsignature = :plsignature AND CV.varid = :varid
     </entry>
 
     <entry key='database.selectPositions'>

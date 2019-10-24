@@ -22,9 +22,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.traccar.config.Config;
 import org.traccar.database.ConnectionManager;
+import org.traccar.database.DataManager;
 import org.traccar.database.IdentityManager;
 import org.traccar.database.StatisticsManager;
 import org.traccar.helper.UnitsConverter;
+import org.traccar.model.CanVariable;
 import org.traccar.model.Device;
 import org.traccar.model.Position;
 
@@ -43,6 +45,7 @@ public abstract class BaseProtocolDecoder extends ExtendedObjectDecoder {
     private static final String PROTOCOL_UNKNOWN = "unknown";
 
     private final Config config = Context.getConfig();
+    private final DataManager dataManager = Context.getDataManager();
     private final IdentityManager identityManager = Context.getIdentityManager();
     private final ConnectionManager connectionManager = Context.getConnectionManager();
     private final StatisticsManager statisticsManager;
@@ -189,6 +192,19 @@ public abstract class BaseProtocolDecoder extends ExtendedObjectDecoder {
             return channelDeviceSession;
         }
     }
+
+    //region getCanVariable, variables from xml MARX
+    public CanVariable getCanVariable(String plSignature, String varId) {
+        CanVariable canVariable = null;
+        try {
+            Collection<CanVariable> canVariables = dataManager.getCanVariables(plSignature, varId);
+            canVariable = canVariables.iterator().next();
+        } catch (Exception e) {
+            LOGGER.warn("getCanVariable", e);
+        }
+        return canVariable;
+    }
+    //endregion
 
     public void getLastLocation(Position position, Date deviceTime) {
         if (position.getDeviceId() != 0) {
