@@ -18,6 +18,8 @@ package org.traccar.protocol;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.traccar.BaseProtocolDecoder;
 import org.traccar.DeviceSession;
 import org.traccar.NetworkMessage;
@@ -31,6 +33,7 @@ import java.net.SocketAddress;
 
 public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(CellocatorProtocolDecoder.class);
     public CellocatorProtocolDecoder(Protocol protocol) {
         super(protocol);
     }
@@ -207,7 +210,8 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
                                 position.set(canVariable.getTitle(), result );
                             }catch(Exception ex) {
                                 position.set("error-" + varId, payload );
-                                String p = ex.getMessage();
+                                String error = ex.getMessage();
+                                LOGGER.warn("error-formula", ex);
                             }
                         }else{
                             position.set("unknown-" + varId, payload );
