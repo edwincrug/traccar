@@ -209,7 +209,7 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
                         if(canVariable != null){
                             try{
                                 long result = canVariable.getFwOffset() + payload * canVariable.getFwMultiplier()/ canVariable.getFwDivider();
-                                position.set(canVariable.getTitle(), result );
+                                position.set(canVariable.getTitle(), result + " " + canVariable.getFwUnits() );
                             }catch(Exception ex) {
                                 position.set(Position.KEY_UNKNOWN + " " + varId, payload );
                                 String error = ex.getMessage();
