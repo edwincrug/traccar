@@ -101,6 +101,10 @@ public class Position extends Message {
     public static final String KEY_PARKING_STATE = "parkingState";
     public static final String KEY_LIGHT_STATE = "lightState";
     public static final String KEY_CLUTCH_PEDAL = "clutchPedal";
+    //region new keys to manager errors
+    public static final String KEY_UNKNOWN = "unknown";
+    public static final String KEY_ERROR = "error";
+    //endregion
 
     // Start with 1 not 0
     public static final String PREFIX_TEMP = "temp";
