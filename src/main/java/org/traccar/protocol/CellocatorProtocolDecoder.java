@@ -114,6 +114,7 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
 
         Position position = new Position(getProtocolName());
         position.setDeviceId(deviceSession.getDeviceId());
+        position.set(Position.KEY_TYPE, 0);
 
         position.set(Position.KEY_VERSION_HW, buf.readUnsignedByte());
         position.set(Position.KEY_VERSION_FW, buf.readUnsignedByte());
@@ -183,6 +184,7 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
 
         Position position = new Position(getProtocolName());
         position.setDeviceId(deviceSession.getDeviceId());
+        position.set(Position.KEY_TYPE, 11 );
 
         buf.readUnsignedByte(); // packet control
         buf.readUnsignedShortLE(); // length
@@ -209,12 +211,12 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
                                 long result = canVariable.getFwOffset() + payload * canVariable.getFwMultiplier()/ canVariable.getFwDivider();
                                 position.set(canVariable.getTitle(), result );
                             }catch(Exception ex) {
-                                position.set("error-" + varId, payload );
+                                position.set(Position.KEY_UNKNOWN + " " + varId, payload );
                                 String error = ex.getMessage();
                                 LOGGER.warn("error-formula", ex);
                             }
                         }else{
-                            position.set("unknown-" + varId, payload );
+                            position.set(Position.KEY_ERROR + "-" + varId, payload );
                         }
                     }
                     break;

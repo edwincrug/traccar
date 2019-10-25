@@ -93,6 +93,10 @@ public class Position extends Message {
     public static final String KEY_RESULT = "result";
 
     public static final String KEY_DRIVER_UNIQUE_ID = "driverUniqueId";
+    //region new keys to manager errors
+    public static final String KEY_UNKNOWN = "unknown";
+    public static final String KEY_ERROR = "error";
+    //endregion
 
     // Start with 1 not 0
     public static final String PREFIX_TEMP = "temp";
