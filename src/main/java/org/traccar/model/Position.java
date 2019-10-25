@@ -54,6 +54,7 @@ public class Position extends Message {
     public static final String KEY_FUEL_LEVEL = "fuel"; // liters
     public static final String KEY_FUEL_USED = "fuelUsed"; // liters
     public static final String KEY_FUEL_CONSUMPTION = "fuelConsumption"; // liters/hour
+    public static final String KEY_FUEL_TEMPEATURE = "fuelTemperature"; // liters/hour
 
     public static final String KEY_VERSION_FW = "versionFw";
     public static final String KEY_VERSION_HW = "versionHw";
@@ -76,6 +77,8 @@ public class Position extends Message {
     public static final String KEY_ACCELERATION = "acceleration";
     public static final String KEY_DEVICE_TEMP = "deviceTemp"; // celsius
     public static final String KEY_COOLANT_TEMP = "coolantTemp"; // celsius
+    public static final String KEY_ENGINE_TEMP = "engineTemp"; // celsius
+    public static final String KEY_AIR_TEMP = "airTemp"; // celsius
     public static final String KEY_ENGINE_LOAD = "engineLoad";
     public static final String KEY_OPERATOR = "operator";
     public static final String KEY_COMMAND = "command";
@@ -88,11 +91,20 @@ public class Position extends Message {
 
     public static final String KEY_DTCS = "dtcs";
     public static final String KEY_OBD_SPEED = "obdSpeed"; // knots
+    public static final String KEY_VEHICLE_SPEED = "vehicleSpeed"; // knots
     public static final String KEY_OBD_ODOMETER = "obdOdometer"; // meters
 
     public static final String KEY_RESULT = "result";
 
     public static final String KEY_DRIVER_UNIQUE_ID = "driverUniqueId";
+    public static final String KEY_SEAT_BELT_SWITCH = "driverSeatBeltSwitch";
+    public static final String KEY_PARKING_STATE = "parkingState";
+    public static final String KEY_LIGHT_STATE = "lightState";
+    public static final String KEY_CLUTCH_PEDAL = "clutchPedal";
+    //region new keys to manager errors
+    public static final String KEY_UNKNOWN = "unknown";
+    public static final String KEY_ERROR = "error";
+    //endregion
 
     // Start with 1 not 0
     public static final String PREFIX_TEMP = "temp";

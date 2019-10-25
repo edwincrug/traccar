@@ -200,7 +200,7 @@ public abstract class BaseProtocolDecoder extends ExtendedObjectDecoder {
             Collection<CanVariable> canVariables = dataManager.getCanVariables(plSignature, varId);
             canVariable = canVariables.iterator().next();
         } catch (Exception e) {
-            LOGGER.warn("getCanVariable", e);
+            LOGGER.warn("getCanVariable-unknown-varId", e);
         }
         return canVariable;
     }
