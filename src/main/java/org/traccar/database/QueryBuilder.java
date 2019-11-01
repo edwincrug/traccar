@@ -477,7 +477,7 @@ public final class QueryBuilder {
 
         if (query != null) {
             try {
-                statement.execute();
+                statement.executeUpdate();
                 if (returnGeneratedKeys) {
                     ResultSet resultSet = statement.getGeneratedKeys();
                     if (resultSet.next()) {
