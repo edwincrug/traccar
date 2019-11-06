@@ -575,6 +575,9 @@
       <column name="canconfigurationid" type="INT">
         <constraints nullable="false" />
       </column>
+      <column name="description" type="VARCHAR(100)">
+        <constraints nullable="false" />
+      </column>
     </createTable>
 
     <addForeignKeyConstraint baseTableName="tc_canvariables" baseColumnNames="canconfigurationid" constraintName="fk_canconfigurations_canvariables_canconfigurationid" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tc_canconfigurations" />
