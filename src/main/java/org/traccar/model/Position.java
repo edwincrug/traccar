@@ -106,6 +106,31 @@ public class Position extends Message {
     public static final String KEY_ERROR = "error";
     //endregion
 
+    //region new keys for new varids
+    public static final String KEY_AC = "A/C";
+    public static final String KEY_ACCELERATOR_PEDAL_POSITION = "acceleratorPedalPosition";
+    public static final String KEY_ASR_SWITCH = "ASRSwitch";
+    public static final String KEY_BATTERY_POTENTIAL = "batteryPotential";
+    public static final String KEY_BRAKE_PEDAL_SWITCH = "brakePedalSwitch";
+    public static final String KEY_CALCULATED_ENGINE_LOAD_VALUE = "calculatedEngineLoadValue";
+    public static final String KEY_CRUISE_CONTROL_ENABLE_SWITCH = "cruiseControlEnableSwitch";
+    public static final String KEY_DISTANCE_TRAVELED_SINCE_CODES_CLEARED = "distanceTraveledSinceCodesCleared";
+    public static final String KEY_DOOR_DRIVER = "doorDriver";
+    public static final String KEY_DOOR_PASSENGER = "doorPassenger";
+    public static final String KEY_ENGINE_FUEL_RATE = "engineFuelRate";
+    public static final String KEY_ENGINE_INTAKE_MANIFOLD_TEMPERATURE = "engineIntakeManifold1Temperature";
+    public static final String KEY_ENGINE_ON_TIME = "engineOnTime";
+    public static final String KEY_FUEL_QUANTITY = "fuelQuantity";
+    public static final String KEY_HEAD_LIGHT = "headLight";
+    public static final String KEY_INTAKE_MANIFOLD_ABSULT_PRESSUR = "intakeManifoldAbsultPressur";
+    public static final String KEY_PARKING_BRAKE_SWITCH = "parkingBrakeSwitch";
+    public static final String KEY_REAL_GROUND_VEHICLE_SPEED = "realGroundVehicleSpeed";
+    public static final String KEY_SEAT_BELT = "seatBelt";
+    public static final String KEY_SEAT_BELT_PASSANGER = "seatBeltPassanger";
+    public static final String KEY_TOTAL_VEHICLE_DISTANCE = "totalVehicleDistance";
+    public static final String KEY_TRANSMISSION_SELECTED_GEAR = "transmissionSelectedGear";
+    //endregion
+
     // Start with 1 not 0
     public static final String PREFIX_TEMP = "temp";
     public static final String PREFIX_ADC = "adc";
