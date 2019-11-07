@@ -10,8 +10,8 @@
 
     -->
 
-    <entry key='web.enable'>true</entry>
-    <entry key='web.port'>8082</entry>
+    <entry key='web.enable'>false</entry>
+    <entry key='web.port'>9200</entry>
     <entry key='web.path'>./web</entry>
     <entry key='web.origin'>*</entry>
     <entry key='web.cacheControl'>max-age=3600,public</entry>
@@ -19,12 +19,12 @@
     <entry key ='geocoder.enable'>true</entry>
     <entry key ='geocoder.type'>google</entry>
     <entry key ='geocoder.url'>https://maps.googleapis.com/maps/api/geocode/</entry>
-    <entry key ='geocoder.key'>AIzaSyDEWOQlZj6OeUR8Go7mACY-KCp_Ao0HBc8</entry>
+    <entry key ='geocoder.key'>AIzaSyBB1Thl2Nl76NTq80cQAhhH1hB70JyI-9c</entry>
 
     <entry key='logger.console'>true</entry>
 
     <entry key='database.driver'>com.microsoft.sqlserver.jdbc.SQLServerDriver</entry>
-    <entry key='database.url'>jdbc:sqlserver://189.204.141.199;user=sa;password=S0p0rt3;databaseName=Tracker;</entry>
+    <entry key='database.url'>jdbc:sqlserver://localhost;user=sa;password=S0p0rt3;databaseName=Tracker;</entry>
     <entry key='database.user'>sa</entry>
     <entry key='database.password'>S0p0rt3</entry>
 
@@ -47,23 +47,39 @@
 
     <entry key='notificator.types'>web,mail,sms</entry>
 
-    <entry key='sms.enable'>true</entry>
-    <entry key='sms.smpp.enable'>true</entry>
-    <entry key='sms.smpp.host'>smsglobal.com</entry>
-    <entry key='sms.smpp.port'>1775</entry>
-    <entry key='sms.smpp.username'>6o84a6aq</entry>
-    <entry key='sms.smpp.password'>z5ZtddAs</entry>
-    <entry key='sms.smpp.notificationsCharset'>GSM</entry>
-    <entry key='sms.smpp.notificationsDataCoding'>0</entry>
-    <entry key='sms.smpp.sourceAddress'>+5215510534400</entry>
+<!--    <entry key='sms.enable'>true</entry>-->
+<!--    <entry key='sms.smpp.enable'>true</entry>-->
+<!--    <entry key='sms.smpp.host'>smsglobal.com</entry>-->
+<!--    <entry key='sms.smpp.port'>1775</entry>-->
+<!--    <entry key='sms.smpp.username'>6o84a6aq</entry>-->
+<!--    <entry key='sms.smpp.password'>z5ZtddAs</entry>-->
+<!--    <entry key='sms.smpp.notificationsCharset'>GSM</entry>-->
+<!--    <entry key='sms.smpp.notificationsDataCoding'>0</entry>-->
+<!--    <entry key='sms.smpp.sourceAddress'>+5215510534400</entry>-->
+
+    <entry key='notificator.sms.manager.class'>org.traccar.sms.HttpSmsClient</entry>
+    <entry key='sms.http.url'>https://api.twilio.com/2010-04-01/Accounts/ACde96ec244c9d9c05b648d650035970d9/Messages.json</entry>
+    <entry key='sms.http.user'>ACde96ec244c9d9c05b648d650035970d9</entry>
+    <entry key='sms.http.password'>c07deaedd5331d739067dcbded2a3696</entry>
+    <entry key='sms.http.template'>
+        From=+12056519014&amp;To={phone}&amp;Body={message}
+    </entry>
+
+<!--    <entry key='mail.smtp.host'>smtp.gmail.com</entry>-->
+<!--    <entry key='mail.smtp.port'>465</entry>-->
+<!--    <entry key='mail.smtp.ssl.enable'>true</entry>-->
+<!--    <entry key='mail.smtp.from'>edwincrug@gmail.com</entry>-->
+<!--    <entry key='mail.smtp.auth'>true</entry>-->
+<!--    <entry key='mail.smtp.username'>edwincrug@gmail.com</entry>-->
+<!--    <entry key='mail.smtp.password'>zenttre.mx</entry>-->
 
     <entry key='mail.smtp.host'>smtp.gmail.com</entry>
     <entry key='mail.smtp.port'>465</entry>
     <entry key='mail.smtp.ssl.enable'>true</entry>
-    <entry key='mail.smtp.from'>edwincrug@gmail.com</entry>
+    <entry key='mail.smtp.from'>sisgpoa@gmail.com</entry>
     <entry key='mail.smtp.auth'>true</entry>
-    <entry key='mail.smtp.username'>edwincrug@gmail.com</entry>
-    <entry key='mail.smtp.password'>zenttre.mx</entry>
+    <entry key='mail.smtp.username'>sisgpoa@gmail.com</entry>
+    <entry key='mail.smtp.password'>Gp04ndr4d3</entry>
 
     <entry key='server.statistics'>https://www.traccar.org/analytics/</entry>
 
@@ -112,7 +128,7 @@
     <entry key='gps103.port'>5001</entry>
     <entry key='tk103.port'>5002</entry>
     <entry key='gl100.port'>5003</entry>
-    <entry key='gl200.port'>5004</entry>
+    <entry key='gl200.port'>9202</entry>
     <entry key='t55.port'>5005</entry>
     <entry key='xexun.port'>5006</entry>
     <entry key='xexun.extended'>false</entry>
@@ -142,7 +158,7 @@
     <entry key='tlt2h.port'>5030</entry>
     <entry key='taip.port'>5031</entry>
     <entry key='wondex.port'>5032</entry>
-    <entry key='cellocator.port'>5033</entry>
+    <entry key='cellocator.port'>9203</entry>
     <entry key='galileo.port'>5034</entry>
     <entry key='ywt.port'>5035</entry>
     <entry key='tk102.port'>5036</entry>
@@ -195,7 +211,7 @@
     <entry key='mtx.port'>5083</entry>
     <entry key='tytan.port'>5084</entry>
     <entry key='avl301.port'>5085</entry>
-    <entry key='castel.port'>5086</entry>
+    <entry key='castel.port'>9201</entry>
     <entry key='mxt.port'>5087</entry>
     <entry key='cityeasy.port'>5088</entry>
     <entry key='aquila.port'>5089</entry>
