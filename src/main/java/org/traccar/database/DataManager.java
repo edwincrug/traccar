@@ -42,23 +42,7 @@ import org.slf4j.LoggerFactory;
 import org.traccar.config.Config;
 import org.traccar.Context;
 import org.traccar.helper.DateUtil;
-import org.traccar.model.Attribute;
-import org.traccar.model.Device;
-import org.traccar.model.Driver;
-import org.traccar.model.Event;
-import org.traccar.model.Geofence;
-import org.traccar.model.Group;
-import org.traccar.model.Maintenance;
-import org.traccar.model.ManagedUser;
-import org.traccar.model.Notification;
-import org.traccar.model.Permission;
-import org.traccar.model.BaseModel;
-import org.traccar.model.Calendar;
-import org.traccar.model.Command;
-import org.traccar.model.Position;
-import org.traccar.model.Server;
-import org.traccar.model.Statistics;
-import org.traccar.model.User;
+import org.traccar.model.*;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -359,6 +343,15 @@ public class DataManager {
                 .executeQuery(Position.class);
     }
 
+    //region getCanVariable, variables from xml MARX
+    public Collection<CanVariable> getCanVariables(String plSignature, String varId) throws SQLException {
+        return QueryBuilder.create(dataSource, getQuery("database.selectCanVariables"))
+                .setString("plsignature", plSignature)
+                .setString("varid", varId)
+                .executeQuery(CanVariable.class);
+    }
+    //endregion
+
     public void clearHistory() throws SQLException {
         long historyDays = config.getInteger("database.historyDays");
         if (historyDays != 0) {
@@ -474,5 +467,4 @@ public class DataManager {
                 .setLong("id", entityId)
                 .executeUpdate();
     }
-
 }

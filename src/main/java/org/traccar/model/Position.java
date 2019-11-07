@@ -54,6 +54,7 @@ public class Position extends Message {
     public static final String KEY_FUEL_LEVEL = "fuel"; // liters
     public static final String KEY_FUEL_USED = "fuelUsed"; // liters
     public static final String KEY_FUEL_CONSUMPTION = "fuelConsumption"; // liters/hour
+    public static final String KEY_FUEL_TEMPEATURE = "fuelTemperature"; // liters/hour
 
     public static final String KEY_VERSION_FW = "versionFw";
     public static final String KEY_VERSION_HW = "versionHw";
@@ -76,6 +77,8 @@ public class Position extends Message {
     public static final String KEY_ACCELERATION = "acceleration";
     public static final String KEY_DEVICE_TEMP = "deviceTemp"; // celsius
     public static final String KEY_COOLANT_TEMP = "coolantTemp"; // celsius
+    public static final String KEY_ENGINE_TEMP = "engineTemp"; // celsius
+    public static final String KEY_AIR_TEMP = "airTemp"; // celsius
     public static final String KEY_ENGINE_LOAD = "engineLoad";
     public static final String KEY_OPERATOR = "operator";
     public static final String KEY_COMMAND = "command";
@@ -84,14 +87,49 @@ public class Position extends Message {
     public static final String KEY_AXLE_WEIGHT = "axleWeight";
     public static final String KEY_G_SENSOR = "gSensor";
     public static final String KEY_ICCID = "iccid";
+    public static final String KEY_PHONE = "phone";
 
     public static final String KEY_DTCS = "dtcs";
     public static final String KEY_OBD_SPEED = "obdSpeed"; // knots
+    public static final String KEY_VEHICLE_SPEED = "vehicleSpeed"; // knots
     public static final String KEY_OBD_ODOMETER = "obdOdometer"; // meters
 
     public static final String KEY_RESULT = "result";
 
     public static final String KEY_DRIVER_UNIQUE_ID = "driverUniqueId";
+    public static final String KEY_SEAT_BELT_SWITCH = "driverSeatBeltSwitch";
+    public static final String KEY_PARKING_STATE = "parkingState";
+    public static final String KEY_LIGHT_STATE = "lightState";
+    public static final String KEY_CLUTCH_PEDAL = "clutchPedal";
+    //region new keys to manager errors
+    public static final String KEY_UNKNOWN = "unknown";
+    public static final String KEY_ERROR = "error";
+    //endregion
+
+    //region new keys for new varids
+    public static final String KEY_AC = "A/C";
+    public static final String KEY_ACCELERATOR_PEDAL_POSITION = "acceleratorPedalPosition";
+    public static final String KEY_ASR_SWITCH = "ASRSwitch";
+    public static final String KEY_BATTERY_POTENTIAL = "batteryPotential";
+    public static final String KEY_BRAKE_PEDAL_SWITCH = "brakePedalSwitch";
+    public static final String KEY_CALCULATED_ENGINE_LOAD_VALUE = "calculatedEngineLoadValue";
+    public static final String KEY_CRUISE_CONTROL_ENABLE_SWITCH = "cruiseControlEnableSwitch";
+    public static final String KEY_DISTANCE_TRAVELED_SINCE_CODES_CLEARED = "distanceTraveledSinceCodesCleared";
+    public static final String KEY_DOOR_DRIVER = "doorDriver";
+    public static final String KEY_DOOR_PASSENGER = "doorPassenger";
+    public static final String KEY_ENGINE_FUEL_RATE = "engineFuelRate";
+    public static final String KEY_ENGINE_INTAKE_MANIFOLD_TEMPERATURE = "engineIntakeManifold1Temperature";
+    public static final String KEY_ENGINE_ON_TIME = "engineOnTime";
+    public static final String KEY_FUEL_QUANTITY = "fuelQuantity";
+    public static final String KEY_HEAD_LIGHT = "headLight";
+    public static final String KEY_INTAKE_MANIFOLD_ABSULT_PRESSUR = "intakeManifoldAbsultPressur";
+    public static final String KEY_PARKING_BRAKE_SWITCH = "parkingBrakeSwitch";
+    public static final String KEY_REAL_GROUND_VEHICLE_SPEED = "realGroundVehicleSpeed";
+    public static final String KEY_SEAT_BELT = "seatBelt";
+    public static final String KEY_SEAT_BELT_PASSANGER = "seatBeltPassanger";
+    public static final String KEY_TOTAL_VEHICLE_DISTANCE = "totalVehicleDistance";
+    public static final String KEY_TRANSMISSION_SELECTED_GEAR = "transmissionSelectedGear";
+    //endregion
 
     // Start with 1 not 0
     public static final String PREFIX_TEMP = "temp";

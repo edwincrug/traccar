@@ -18,18 +18,22 @@ package org.traccar.protocol;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.traccar.BaseProtocolDecoder;
 import org.traccar.DeviceSession;
 import org.traccar.NetworkMessage;
 import org.traccar.Protocol;
 import org.traccar.helper.DateBuilder;
 import org.traccar.helper.UnitsConverter;
+import org.traccar.model.CanVariable;
 import org.traccar.model.Position;
 
 import java.net.SocketAddress;
 
 public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(CellocatorProtocolDecoder.class);
     public CellocatorProtocolDecoder(Protocol protocol) {
         super(protocol);
     }
@@ -43,29 +47,52 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
 
     public static final int MSG_SERVER_ACKNOWLEDGE = 4;
 
-    private byte commandCount;
+    public static ByteBuf encodeContent(int type, int uniqueId, int packetNumber, ByteBuf content) {
+
+        ByteBuf buf = Unpooled.buffer();
+        buf.writeByte('M');
+        buf.writeByte('C');
+        buf.writeByte('G');
+        buf.writeByte('P');
+        buf.writeByte(type);
+        buf.writeIntLE(uniqueId);
+        buf.writeByte(packetNumber);
+        buf.writeIntLE(0); // authentication code
+        buf.writeBytes(content);
+
+        byte checksum = 0;
+        for (int i = 4; i < buf.writerIndex(); i++) {
+            checksum += buf.getByte(i);
+        }
+        buf.writeByte(checksum);
+
+        return buf;
+    }
 
     private void sendResponse(Channel channel, SocketAddress remoteAddress, long deviceId, byte packetNumber) {
         if (channel != null) {
-            ByteBuf reply = Unpooled.buffer(28);
-            reply.writeByte('M');
-            reply.writeByte('C');
-            reply.writeByte('G');
-            reply.writeByte('P');
-            reply.writeByte(MSG_SERVER_ACKNOWLEDGE);
-            reply.writeIntLE((int) deviceId);
-            reply.writeByte(commandCount++);
-            reply.writeIntLE(0); // authentication code
-            reply.writeByte(0);
-            reply.writeByte(packetNumber);
-            reply.writeZero(11);
+            ByteBuf content = Unpooled.buffer();
+            content.writeByte(0);
+            content.writeByte(packetNumber);
+            content.writeZero(11);
 
-            byte checksum = 0;
-            for (int i = 4; i < 27; i++) {
-                checksum += reply.getByte(i);
-            }
-            reply.writeByte(checksum);
+            ByteBuf reply = encodeContent(MSG_SERVER_ACKNOWLEDGE, (int) deviceId, packetNumber, content);
+            channel.writeAndFlush(new NetworkMessage(reply, remoteAddress));
+        }
+    }
 
+    private void sendModuleResponse(Channel channel, SocketAddress remoteAddress, long deviceId, byte packetNumber) {
+        if (channel != null) {
+            ByteBuf content = Unpooled.buffer();
+            content.writeByte(0x80);
+            content.writeShortLE(10); // modules length
+            content.writeIntLE(0); // reserved
+            content.writeByte(9); // ack module type
+            content.writeShortLE(3); // module length
+            content.writeByte(0); // ack
+            content.writeShortLE(0); // reserved
+
+            ByteBuf reply = encodeContent(MSG_CLIENT_MODULAR_EXT, (int) deviceId, packetNumber, content);
             channel.writeAndFlush(new NetworkMessage(reply, remoteAddress));
         }
     }
@@ -87,6 +114,7 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
 
         Position position = new Position(getProtocolName());
         position.setDeviceId(deviceSession.getDeviceId());
+        position.set(Position.KEY_TYPE, 0);
 
         position.set(Position.KEY_VERSION_HW, buf.readUnsignedByte());
         position.set(Position.KEY_VERSION_FW, buf.readUnsignedByte());
@@ -148,30 +176,48 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
         return position;
     }
 
+  //region Decodificación de trama modular 11
+    // 20191023
+    // 20191024 - MARX case 2 message 11
+
     private Position decodeModular(ByteBuf buf, DeviceSession deviceSession) {
 
         Position position = new Position(getProtocolName());
         position.setDeviceId(deviceSession.getDeviceId());
+        position.set(Position.KEY_TYPE, 11 );
 
         buf.readUnsignedByte(); // packet control
         buf.readUnsignedShortLE(); // length
         buf.readUnsignedShortLE(); // reserved
         buf.readUnsignedShortLE(); // reserved
 
-        while (buf.readableBytes() > 3) {
+        while (buf.readableBytes() > 3) { //checksum
 
             int moduleType = buf.readUnsignedByte();
             int endIndex = buf.readUnsignedShortLE() + buf.readerIndex();
 
             switch (moduleType) {
                 case 2:
-                    buf.readUnsignedShortLE(); // operator id
-                    buf.readUnsignedIntLE(); // pl signature
-                    int count = buf.readUnsignedByte();
+                   long operator =  buf.readUnsignedShort(); // operator id
+                   String plSignature =  Long.toHexString(buf.readUnsignedInt()); // pl signature
+                    int count = buf.readUnsignedByte(); // var nums
                     for (int i = 0; i < count; i++) {
-                        int id = buf.readUnsignedShortLE();
-                        buf.readUnsignedByte(); // variable length
-                        position.set(Position.PREFIX_IO + id, buf.readUnsignedIntLE());
+                        String varId = Integer.toHexString(buf.readUnsignedShortLE()); //VAR id
+                        int varLength = buf.readUnsignedByte(); // variable length always 0x04
+                        long payload = buf.readUnsignedIntLE(); // calc value
+                        CanVariable canVariable = getCanVariable(plSignature,varId);
+                        if(canVariable != null){
+                            try{
+                                long result = canVariable.getFwOffset() + payload * canVariable.getFwMultiplier()/ canVariable.getFwDivider();
+                                position.set(canVariable.getTitle(), result + " " + canVariable.getFwUnits() );
+                            }catch(Exception ex) {
+                                position.set(Position.KEY_UNKNOWN + " " + varId, payload );
+                                String error = ex.getMessage();
+                                LOGGER.warn("error-formula", ex);
+                            }
+                        }else{
+                            position.set(Position.KEY_ERROR + "-" + varId, payload );
+                        }
                     }
                     break;
                 case 6:
@@ -203,6 +249,8 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
         return position;
     }
 
+    //endregion
+
     @Override
     protected Object decode(
             Channel channel, SocketAddress remoteAddress, Object msg) throws Exception {
@@ -225,7 +273,11 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
         }
         byte packetNumber = buf.readByte();
 
-        sendResponse(channel, remoteAddress, deviceUniqueId, packetNumber);
+        if (type == MSG_CLIENT_MODULAR_EXT) {
+            sendModuleResponse(channel, remoteAddress, deviceUniqueId, packetNumber);
+        } else {
+            sendResponse(channel, remoteAddress, deviceUniqueId, packetNumber);
+        }
 
         if (type == MSG_CLIENT_STATUS) {
             return decodeStatus(buf, deviceSession, alternative);

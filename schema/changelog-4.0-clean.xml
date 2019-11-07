@@ -538,6 +538,50 @@
       <column name="poilayer" type="VARCHAR(512)" />
     </createTable>
 
+    <createTable tableName="tc_canconfigurations">
+      <column name="id" type="INT" autoIncrement="true">
+        <constraints primaryKey="true" />
+      </column>
+      <column name="plsignature" type="VARCHAR(10)">
+        <constraints nullable="false" unique="true" />
+      </column>
+    </createTable>
+
+    <createTable tableName="tc_canvariables">
+      <column name="id" type="INT" autoIncrement="true">
+        <constraints primaryKey="true" />
+      </column>
+      <column name="varid" type="VARCHAR(10)">
+        <constraints nullable="false" />
+      </column>
+      <column name="title" type="VARCHAR(100)">
+        <constraints nullable="false" />
+      </column>
+      <column name="fwmultiplier" type="INT">
+        <constraints nullable="false" />
+      </column>
+      <column name="fwdivider" type="INT">
+        <constraints nullable="false" />
+      </column>
+      <column name="fwoffset" type="INT">
+        <constraints nullable="false" />
+      </column>
+      <column name="fwunits" type="VARCHAR(20)">
+        <constraints nullable="false" />
+      </column>
+      <column name="decimalplaces" type="INT">
+        <constraints nullable="false" />
+      </column>
+      <column name="canconfigurationid" type="INT">
+        <constraints nullable="false" />
+      </column>
+      <column name="description" type="VARCHAR(100)">
+        <constraints nullable="false" />
+      </column>
+    </createTable>
+
+    <addForeignKeyConstraint baseTableName="tc_canvariables" baseColumnNames="canconfigurationid" constraintName="fk_canconfigurations_canvariables_canconfigurationid" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tc_canconfigurations" />
+
     <addForeignKeyConstraint baseTableName="tc_device_command" baseColumnNames="commandid" constraintName="fk_device_command_commandid" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tc_commands" />
     <addForeignKeyConstraint baseTableName="tc_device_command" baseColumnNames="deviceid" constraintName="fk_device_command_deviceid" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tc_devices" />
 
