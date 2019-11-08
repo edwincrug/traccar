@@ -99,12 +99,206 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
 
     private String decodeAlarm(short reason) {
         switch (reason) {
+            case 4:
+                return Position.ALARM_EMERGENCY;
+            case 6:
+                return Position.ALARM_ENGINE_ACTIVATED;
+            case 8:
+                return Position.ALARM_TOW;
+            case 9:
+                return Position.ALARM_ROBBERY;
+            case 11:
+                return Position.ALARM_IDLE;
+            case 13:
+                return Position.ALARM_KEYPAD_LOCKED;
+            case 15:
+                return Position.ALARM_CRASH;
+            case 16:
+                return Position.ALARM_FUNCTION_BUTTON_PRESSED;
+            case 18:
+                return Position.ALARM_VOICE_CALL;
+            case 19:
+                return Position.ALARM_LOCK;
+            case 21:
+                return Position.ALARM_COASTING_DETECTION;
+            case 22:
+                return Position.ALARM_VIOLATION_1_FREQUENCY;
+            case 23:
+                return Position.ALARM_VIOLATION_2_FREQUENCY;
+            case 25:
+                return Position.ALARM_SPEED_IGNITION_OFF;
+            case 31:
+                return Position.ALARM_REPLY_COMMAND;
+            case 32:
+                return Position.ALARM_IP_CHANGED;
+            case 33:
+                return Position.ALARM_GPS_NAVIGATION_START;
+            case 34:
+                return Position.ALARM_OVER_SPEED_START;
+            case 35:
+                return Position.ALARM_IDLE_SPEED_START;
+            case 38:
+                return Position.ALARM_GPS_FACTORY_RESET;
+            case 41:
+                return Position.ALARM_GPS_NAVIGATION_END;
+            case 42:
+                return Position.ALARM_OVER_SPEED_END;
+            case 43:
+                return Position.ALARM_IDLE_SPEED_END;
+            case 46:
+                return Position.ALARM_DIVER_AUTHENTICATION_UPDATE;
+            case 47:
+                return Position.ALARM_DRIVING_WITHOUT_AUTHENTICATION;
+            case 48:
+                return Position.ALARM_DOOR_CLOSE;
+            case 49:
+                return Position.ALARM_SHOCK_UNLOCK2_INACTIVE;
+            case 50:
+                return Position.ALARM_CFE_INPUT6_INACTIVE;
+            case 51:
+                return Position.ALARM_VOLUME_SENSOR_INACTIVE_EVENT;
+            case 53:
+                return Position.ALARM_DRIVING_STOP;
+            case 54:
+                return Position.ALARM_DISTRESS_BUTTON_INACTIVE;
+            case 55:
+                return Position.ALARM_UNLOCK_INPUT_INACTIVE;
+            case 57:
+                return Position.ALARM_CFE_INPUT1_INACTIVE;
+            case 58:
+                return Position.ALARM_LOCK_INPUT_INACTIVE;
+            case 59:
+                return Position.ALARM_CFE_INPUT2_INACTIVE;
+            case 60:
+                return Position.ALARM_CFE_INPUT3_INACTIVE;
+            case 61:
+                return Position.ALARM_CFE_INPUT4_INACTIVE;
+            case 62:
+                return Position.ALARM_CFE_INPUT5_INACTIVE;
+            case 63:
+                return Position.ALARM_IGNITION_INPUT_INACTIVE;
+            case 64:
+                return Position.ALARM_DOOR_OPEN;
+            case 65:
+                return Position.ALARM_SHOCK_UNLOCK2_ACTIVE;
+            case 66:
+                return Position.ALARM_CFE_INPUT6_ACTIVE;
+            case 67:
+                return Position.ALARM_VOLUME_SENSOR_ACTIVE;
+            case 69:
+                return Position.ALARM_DRIVING_START;
             case 70:
                 return Position.ALARM_SOS;
+            case 71:
+                return Position.ALARM_UNLOCK_INPUT_ACTIVE;
+            case 73:
+                return Position.ALARM_CFE_INPUT1_ACTIVE;
+            case 74:
+                return Position.ALARM_LOCK_INPUT_ACTIVE;
+            case 75:
+                return Position.ALARM_CFE_INPUT2_ACTIVE;
+            case 76:
+                return Position.ALARM_CFE_INPUT3_ACTIVE;
+            case 77:
+                return Position.ALARM_CFE_INPUT4_ACTIVE;
+            case 78:
+                return Position.ALARM_CFE_INPUT5_ACTIVE;
+            case 79:
+                return Position.ALARM_IGNITION_INPUT_ACTIVE;
             case 80:
                 return Position.ALARM_POWER_CUT;
             case 81:
                 return Position.ALARM_LOW_POWER;
+            case 82:
+                return Position.ALARM_BACKUP_BATTERY_DISCONNECTED;
+            case 83:
+                return Position.ALARM_BACKUP_BATTERY_LOW_LEVEL;
+            case 84:
+                return Position.ALARM_HALT_MOVEMENT_END;
+            case 85:
+                return Position.ALARM_GO_MOVEMENT_START;
+            case 87:
+                return Position.ALARM_MAIN_POWER_CONNECTED;
+            case 88:
+                return Position.ALARM_MAIN_POWER_HIGH_LEVEL;
+            case 89:
+                return Position.ALARM_BACKUP_BATTERY_CONNECTED;
+            case 90:
+                return Position.ALARM_BACKUP_BATTERY_HIGH_LEVEL;
+            case 91:
+                return Position.ALARM_MESSAGE_FROM_KEYBOARD;
+            case 92:
+                return Position.ALARM_SATELLITE_COMMUNICATION;
+            case 99:
+                return Position.ALARM_HARSH_BRAKING_SENSOR;
+            case 100:
+                return Position.ALARM_SUDDEN_COURSE_CHANGE_SENSOR;
+            case 101:
+                return Position.ALARM_HARSH_ACCELERATION_SENSOR;
+            case 154:
+                return Position.ALARM_MAIN_POWER_LOW;
+            case 158:
+                return Position.ALARM_TAMPER_ACTIVE;
+            case 159:
+                return Position.ALARM_TAMPER_INACTIVE;
+            case 160:
+                return Position.ALARM_CFE_VENT;
+            case 161:
+                return Position.ALARM_UNLOCK_INPUT;
+            case 166:
+                return Position.ALARM_ORIENTATION_CHANGE;
+            case 167:
+                return Position.ALARM_CAN_GPS_SPEED_CALIBRATION;
+            case 190:
+                return Position.ALARM_NO_MODEM_ZONE_ENTRY;
+            case 191:
+                return Position.ALARM_GEO_HOTSPOT_VIOLATION;
+            case 192:
+                return Position.ALARM_FREQUENCY_MEASUREMENT_THRESHOLD_VIOLATION;
+            case 194:
+                return Position.ALARM_ANALOG_MEASUREMENT_THRESHOLD_VIOLATION;
+            case 199:
+                return Position.ALARM_TRAILER_CONNECTION_STATUS;
+            case 200:
+                return Position.ALARM_AHR;
+            case 201:
+                return Position.ALARM_PSP;
+            case 202:
+                return Position.ALARM_WAKE_UP_EVENT;
+            case 203:
+                return Position.ALARM_PRE_HIBERNATION_EVENT;
+            case 204:
+                return Position.ALARM_VECTOR_CHANGE_CURVE_SMOOTHING;
+            case 205:
+                return Position.ALARM_GARMIN_CONNECTION_STATUS;
+            case 206:
+                return Position.ALARM_JAMMING;
+            case 207:
+                return Position.ALARM_RADIO_OFF_MODE;
+            case 208:
+                return Position.ALARM_HEADER_ERROR;
+            case 212:
+                return Position.ALARM_GEO_FENCE_OVER_SPEED_START;
+            case 213:
+                return Position.ALARM_GEO_FENCE_OVER_SPEED_END;
+            case 222:
+                return Position.ALARM_POINTERCEPT_BEACON_START_STOP;
+            case 223:
+                return Position.ALARM_POINTERCEPT_CPIN_ERROR;
+            case 224:
+                return Position.ALARM_OTA;
+            case 225:
+                return Position.ALARM_POINTERCEPT_PERIODIC_BEACON_TRANSMISSION;
+            case 247:
+                return Position.ALARM_FINISH_MODE;
+            case 252:
+                return Position.ALARM_COM_LOCATION_GLANCING;
+            case 253:
+                return Position.ALARM_VIOLATION_KEEP_IN_FENCE;
+            case 254:
+                return Position.ALARM_VIOLATION_KEEP_OUT_FENCE;
+            case 255:
+                return Position.ALARM_VIOLATION_WAYPOINT;
             default:
                 return null;
         }
@@ -124,9 +318,18 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
 
         buf.readUnsignedByte(); // operator / configuration flags
         buf.readUnsignedByte(); // reason data
-        position.set(Position.KEY_ALARM, decodeAlarm(buf.readUnsignedByte()));
 
-        position.set("mode", buf.readUnsignedByte());
+        short reason = buf.readUnsignedByte();
+        String decodeReason = decodeAlarm(reason);
+        position.set(Position.KEY_ALARM, decodeReason);
+
+        short mode = buf.readUnsignedByte();
+        position.set("mode", mode);
+        if(mode == 0){
+            position.set(Position.KEY_IGNITION, true);
+        }else{
+            position.set(Position.KEY_IGNITION, false);
+        }
         position.set(Position.KEY_INPUT, buf.readUnsignedIntLE());
 
         if (alternative) {
