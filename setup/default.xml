@@ -67,7 +67,7 @@
     <entry key='server.statistics'>https://www.traccar.org/analytics/</entry>
 
     <entry key='processing.copyAttributes.enable'>true</entry>
-    <entry key='processing.copyAttributes'>power,ignition,battery,status,motion</entry>
+    <entry key='processing.copyAttributes'>odometer,obdOdometer,power,ignition,battery,status,motion</entry>
 
     <entry key='commands.queueing'>true</entry>
 
