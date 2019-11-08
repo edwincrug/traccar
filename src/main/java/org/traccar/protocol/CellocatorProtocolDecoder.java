@@ -320,19 +320,8 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
         buf.readUnsignedByte(); // reason data
 
         short reason = buf.readUnsignedByte();
-
-        switch(reason){
-            case 37:
-                position.set(Position.KEY_IGNITION, true);
-                break;
-            case 45:
-                position.set(Position.KEY_IGNITION, false);
-                break;
-            default:
-                String decodeReason = decodeAlarm(reason);
-                position.set(Position.KEY_ALARM, decodeReason);
-                break;
-        }
+        String decodeReason = decodeAlarm(reason);
+        position.set(Position.KEY_ALARM, decodeReason);
 
         short mode = buf.readUnsignedByte();
         position.set("mode", mode);
