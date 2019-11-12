@@ -333,17 +333,11 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
         byte status4 = buf.readByte();
 
         String s1 = String.format("%8s", Integer.toBinaryString(status1 & 0xFF)).replace(' ','0');
-        System.out.println(s1);
         String s2 = String.format("%8s", Integer.toBinaryString(status2 & 0xFF)).replace(' ','0');
-        System.out.println(s2);
         char ignitionValue = s2.charAt(0);
-        System.out.println(ignitionValue);
         int ignition = Character.getNumericValue(ignitionValue);
-        System.out.println(ignition);
         String s3 = String.format("%8s", Integer.toBinaryString(status3 & 0xFF)).replace(' ','0');
-        System.out.println(s3);
         String s4 = String.format("%8s", Integer.toBinaryString(status4 & 0xFF)).replace(' ','0');
-        System.out.println(s4);
         //position.set(Position.KEY_INPUT, buf.readUnsignedIntLE());
 
         switch(ignition){
