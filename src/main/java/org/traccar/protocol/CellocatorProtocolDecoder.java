@@ -320,24 +320,42 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
         buf.readUnsignedByte(); // reason data
 
         short reason = buf.readUnsignedByte();
-        switch(reason){
-            case 69:
-                position.set(Position.KEY_IGNITION, true);
-                break;
-            case 53:
-                position.set(Position.KEY_IGNITION, false);
-                break;
-            default:
-                break;
-        }
 
         String decodeReason = decodeAlarm(reason);
         position.set(Position.KEY_ALARM, decodeReason);
 
         short mode = buf.readUnsignedByte();
-        position.set("mode", mode);
+        position.set("mode" , mode);
 
-        position.set(Position.KEY_INPUT, buf.readUnsignedIntLE());
+        byte status1 = buf.readByte();
+        byte status2 = buf.readByte();
+        byte status3 = buf.readByte();
+        byte status4 = buf.readByte();
+
+        String s1 = String.format("%8s", Integer.toBinaryString(status1 & 0xFF)).replace(' ','0');
+        System.out.println(s1);
+        String s2 = String.format("%8s", Integer.toBinaryString(status2 & 0xFF)).replace(' ','0');
+        System.out.println(s2);
+        char ignitionValue = s2.charAt(0);
+        System.out.println(ignitionValue);
+        int ignition = Character.getNumericValue(ignitionValue);
+        System.out.println(ignition);
+        String s3 = String.format("%8s", Integer.toBinaryString(status3 & 0xFF)).replace(' ','0');
+        System.out.println(s3);
+        String s4 = String.format("%8s", Integer.toBinaryString(status4 & 0xFF)).replace(' ','0');
+        System.out.println(s4);
+        //position.set(Position.KEY_INPUT, buf.readUnsignedIntLE());
+
+        switch(ignition){
+            case 1:
+                position.set(Position.KEY_IGNITION, true);
+                break;
+            case 0:
+                position.set(Position.KEY_IGNITION, false);
+                break;
+            default:
+                break;
+        }
 
         if (alternative) {
             buf.readUnsignedByte(); // input
@@ -466,7 +484,6 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
             Channel channel, SocketAddress remoteAddress, Object msg) throws Exception {
 
         ByteBuf buf = (ByteBuf) msg;
-
         boolean alternative = buf.getByte(buf.readerIndex() + 3) != 'P';
 
         buf.skipBytes(4); // system code
