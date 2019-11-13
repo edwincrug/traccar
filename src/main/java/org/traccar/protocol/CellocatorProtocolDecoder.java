@@ -30,6 +30,7 @@ import org.traccar.model.CanVariable;
 import org.traccar.model.Position;
 
 import java.net.SocketAddress;
+import java.util.Date;
 
 public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
 
@@ -420,6 +421,7 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
 
             switch (moduleType) {
                 case 1:
+                    StringBuilder error = new StringBuilder();
                     int countMode3 = buf.readUnsignedByte(); // Number of DTCs mode 3
                     int countMode7 = buf.readUnsignedByte(); // Number of DTCs mode 7
                     for (int i = 0; i < countMode3; i++) {
@@ -438,22 +440,22 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
                         // Value of code
                         int codeDTC = ((part1 & 0xff) << 8) | (part2 & 0xff);
 
-                        String error = "";
                         switch(typeError){
                             case "00":
-                                error = "mode3-P–Power train-" + codeDTC;
+                                error.append("mode3-P–Power train-");
                                 break;
                             case "01":
-                                error = "mode3-C-Chassis-" + codeDTC;
+                                error.append("mode3-C-Chassis-");
                                 break;
                             case "10":
-                                error = "mode3-B-Body-" + codeDTC;
+                                error.append("mode3-B-Body-");
                                 break;
                             case "11":
-                                error = "mode3-U–Network-" + codeDTC;
+                                error.append("mode3-U–Network-");
                                 break;
                         }
-                        position.set(Position.KEY_DTCS , error );
+                        error.append(codeDTC);
+                        error.append("|");
                     }
                     for (int i = 0; i < countMode7; i++) {
 
@@ -471,22 +473,25 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
                         // Value of code
                         int codeDTC = ((part1 & 0xff) << 8) | (part2 & 0xff);
 
-                        String error = "";
                         switch(typeError){
                             case "00":
-                                error = "mode7-P–Power train-" + codeDTC;
+                                error.append("mode7-P–Power train-");
                                 break;
                             case "01":
-                                error = "mode7-C-Chassis-" + codeDTC;
+                                error.append("mode7-C-Chassis-");
                                 break;
                             case "10":
-                                error = "mode7-B-Body-" + codeDTC;
+                                error.append("mode7-B-Body-");
                                 break;
                             case "11":
-                                error = "mode7-U–Network-" + codeDTC;
+                                error.append("mode7-U–Network-");
                                 break;
                         }
-                        position.set(Position.KEY_DTCS , error );
+                        error.append(codeDTC);
+                        error.append("|");
+
+                        position.set(Position.KEY_DTCS , error.toString() );
+                        position.setTime(new Date());
                     }
                     break;
                 case 2:
@@ -504,7 +509,7 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
                                 position.set(canVariable.getTitle(), result + " " + canVariable.getFwUnits() );
                             }catch(Exception ex) {
                                 position.set(Position.KEY_UNKNOWN + " " + varId, payload );
-                                String error = ex.getMessage();
+                                String err = ex.getMessage();
                                 LOGGER.warn("error-formula", ex);
                             }
                         }else{
