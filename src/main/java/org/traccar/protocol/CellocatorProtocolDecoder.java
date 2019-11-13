@@ -419,6 +419,76 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
             int endIndex = buf.readUnsignedShortLE() + buf.readerIndex();
 
             switch (moduleType) {
+                case 1:
+                    int countMode3 = buf.readUnsignedByte(); // Number of DTCs mode 3
+                    int countMode7 = buf.readUnsignedByte(); // Number of DTCs mode 7
+                    for (int i = 0; i < countMode3; i++) {
+
+                        byte part1 = buf.readByte();
+                        byte part2 = buf.readByte();
+
+                        // get ErrorType
+                        String partError = String.format("%8s", Integer.toBinaryString(part1 & 0xFF)).replace(' ','0');
+                        String typeError = partError.substring(0,2);
+
+                        // Remove 2 bits from ErrorType
+                        part1 = (byte) (part1 & ~(1 << 6));
+                        part1 = (byte) (part1 & ~(1 << 7));
+
+                        // Value of code
+                        int codeDTC = ((part1 & 0xff) << 8) | (part2 & 0xff);
+
+                        String error = "";
+                        switch(typeError){
+                            case "00":
+                                error = "mode3-P–Power train-" + codeDTC;
+                                break;
+                            case "01":
+                                error = "mode3-C-Chassis-" + codeDTC;
+                                break;
+                            case "10":
+                                error = "mode3-B-Body-" + codeDTC;
+                                break;
+                            case "11":
+                                error = "mode3-U–Network-" + codeDTC;
+                                break;
+                        }
+                        position.set(Position.KEY_DTCS , error );
+                    }
+                    for (int i = 0; i < countMode7; i++) {
+
+                        byte part1 = buf.readByte();
+                        byte part2 = buf.readByte();
+
+                        // get ErrorType
+                        String partError = String.format("%8s", Integer.toBinaryString(part1 & 0xFF)).replace(' ','0');
+                        String typeError = partError.substring(0,2);
+
+                        // Remove 2 bits from ErrorType
+                        part1 = (byte) (part1 & ~(1 << 6));
+                        part1 = (byte) (part1 & ~(1 << 7));
+
+                        // Value of code
+                        int codeDTC = ((part1 & 0xff) << 8) | (part2 & 0xff);
+
+                        String error = "";
+                        switch(typeError){
+                            case "00":
+                                error = "mode7-P–Power train-" + codeDTC;
+                                break;
+                            case "01":
+                                error = "mode7-C-Chassis-" + codeDTC;
+                                break;
+                            case "10":
+                                error = "mode7-B-Body-" + codeDTC;
+                                break;
+                            case "11":
+                                error = "mode7-U–Network-" + codeDTC;
+                                break;
+                        }
+                        position.set(Position.KEY_DTCS , error );
+                    }
+                    break;
                 case 2:
                    long operator =  buf.readUnsignedShort(); // operator id
                    String plSignature =  Long.toHexString(buf.readUnsignedInt()); // pl signature
