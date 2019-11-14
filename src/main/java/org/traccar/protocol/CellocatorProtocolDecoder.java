@@ -489,10 +489,9 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
                         }
                         error.append(codeDTC);
                         error.append("|");
-
-                        position.set(Position.KEY_DTCS , error.toString() );
-                        position.setTime(new Date());
                     }
+                    position.set(Position.KEY_DTCS , error.toString() );
+                    position.setTime(new Date());
                     break;
                 case 2:
                    long operator =  buf.readUnsignedShort(); // operator id
