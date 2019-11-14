@@ -442,16 +442,16 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
 
                         switch(typeError){
                             case "00":
-                                error.append("mode3-P–Power train-");
+                                error.append("mode3-Power train-");
                                 break;
                             case "01":
-                                error.append("mode3-C-Chassis-");
+                                error.append("mode3-Chassis-");
                                 break;
                             case "10":
-                                error.append("mode3-B-Body-");
+                                error.append("mode3-Body-");
                                 break;
                             case "11":
-                                error.append("mode3-U–Network-");
+                                error.append("mode3-Network-");
                                 break;
                         }
                         error.append(codeDTC);
