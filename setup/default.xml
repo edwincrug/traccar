@@ -16,7 +16,7 @@
     <entry key='web.origin'>*</entry>
     <entry key='web.cacheControl'>max-age=3600,public</entry>
 
-    <entry key ='geocoder.enable'>true</entry>
+    <entry key ='geocoder.enable'>false</entry>
     <entry key ='geocoder.type'>google</entry>
     <entry key ='geocoder.url'>https://maps.googleapis.com/maps/api/geocode/</entry>
     <entry key ='geocoder.key'>AIzaSyBB1Thl2Nl76NTq80cQAhhH1hB70JyI-9c</entry>
@@ -74,13 +74,13 @@
     <!--    <entry key='mail.smtp.username'>edwincrug@gmail.com</entry>-->
     <!--    <entry key='mail.smtp.password'>zenttre.mx</entry>-->
 
-    <entry key='mail.smtp.host'>smtp.gmail.com</entry>
-    <entry key='mail.smtp.port'>465</entry>
-    <entry key='mail.smtp.ssl.enable'>true</entry>
-    <entry key='mail.smtp.from'>sisgpoa@gmail.com</entry>
+    <entry key='mail.smtp.host'>mail.grupoandrade.com.mx</entry>
+    <entry key='mail.smtp.port'>2525</entry>
+    <entry key='mail.smtp.ssl.enable'>false</entry>
+    <entry key='mail.smtp.from'>alan.rosales@grupoandrade.com.mx</entry>
     <entry key='mail.smtp.auth'>true</entry>
-    <entry key='mail.smtp.username'>sisgpoa@gmail.com</entry>
-    <entry key='mail.smtp.password'>Gp04ndr4d3</entry>
+    <entry key='mail.smtp.username'>alan.rosales</entry>
+    <entry key='mail.smtp.password'>R0s4l3s#</entry>
 
     <entry key='server.statistics'>https://www.traccar.org/analytics/</entry>
 

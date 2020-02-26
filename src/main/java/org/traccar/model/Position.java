@@ -133,6 +133,7 @@ public class Position extends Message {
     //endregion
 
     // Start with 1 not 0
+    public static final String PREFIX_FUEL_LEVEL = "fuelLevel";
     public static final String PREFIX_TEMP = "temp";
     public static final String PREFIX_ADC = "adc";
     public static final String PREFIX_IO = "io";
