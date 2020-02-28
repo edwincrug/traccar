@@ -356,12 +356,12 @@ public class CellocatorProtocolDecoder extends BaseProtocolDecoder {
             buf.readUnsignedByte(); // input
             position.set(Position.PREFIX_ADC + 1, buf.readUnsignedShortLE());
             buf.readByte();
-            position.set(Position.PREFIX_FUEL_LEVEL, ((buf.readUnsignedByte() * 0.0098) * 100) / 2.5 );
+            position.set(Position.PREFIX_FUEL_LEVEL, ((buf.readUnsignedByte() * 0.0098) * 100) / 2.5 + " %" );
         } else {
             buf.readUnsignedByte(); // operator
             position.set(Position.PREFIX_ADC + 1, buf.readUnsignedShortLE());
             buf.readByte();
-            position.set(Position.PREFIX_FUEL_LEVEL, ((buf.readUnsignedByte() * 0.0098) * 100) / 2.5 );
+            position.set(Position.PREFIX_FUEL_LEVEL, ((buf.readUnsignedByte() * 0.0098) * 100) / 2.5 + " %" );
             //position.set(Position.PREFIX_ADC + 1, buf.readUnsignedIntLE());
         }
 

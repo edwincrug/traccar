@@ -89,7 +89,8 @@
 
     <entry key='commands.queueing'>true</entry>
 
-    <entry key='database.ignoreUnknown'>true</entry>
+    <entry key='database.ignoreUnknown'>false</entry>
+    <entry key='database.registerUnknown'>true</entry>
     <entry key='database.generateQueries'>true</entry>
     <entry key='database.changelog'>./schema/changelog-master.xml</entry>
 
